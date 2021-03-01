@@ -1,0 +1,94 @@
+<section id="hero-area" class="bg-blue-100 pt-32 pb-10 overflow-hidden h-screen relative"
+         data-controller="hero"
+         data-scroll-container
+         style="background-color: #fff1;
+                 background-image: url({{ asset('img/havana.jpg') }}),
+                 linear-gradient(217deg, rgb(255, 206, 12), rgba(255,0,0,0) 70.71%),
+                 linear-gradient(127deg, rgba(128, 168, 244, 0.8), rgba(0,255,0,0) 70.71%),
+                 linear-gradient(336deg, rgba(5, 65, 157, 0.92), rgba(0,0,255,0) 70.71%);
+
+
+                 background-size: 100% 100%;
+                 background-blend-mode: screen">
+
+    <svg height="0" width="0">
+    </svg>
+
+
+    <div class="container" >
+        <div class="flex justify-between">
+
+            <div class="w-full h-screen text-center">
+
+                <div  style="">
+                    <h2 class="text-4xl font-bold leading-snug text-gray-700 mb-10 wow fadeInUp"
+
+                        data-wow-delay="1s">mitin poético virtual de la habana
+
+                        <br class="hidden lg:block text-lg"> POR CUBA OTRA VEZ
+                    </h2>
+
+                    <div class="text-center mb-10 wow fadeInUp" data-wow-delay="1.2s">
+                        <a href="#convocatoria"
+                           rel="nofollow"
+                           class="btn">Ver convocatoria</a>
+                    </div>
+
+                    <div class="text-center wow fadeInUp" data-wow-delay="1.6s">
+                        <div class="text-center mb-10 wow fadeInUp" data-wow-delay="1.2s">
+                            {{ 'Solo faltan' | trans }}
+                            <div id="countdown">
+                                <ul>
+                                    {% if countdownTimer.m > 0 %}
+                                        <li><span id="months">{{ countdownTimer.m }}</span>
+                                            {% if countdownTimer.m > 1 %}
+                                                {{ 'meses' | trans }}
+                                            {% else %}
+                                                {{ 'mes' | trans }}
+                                            {% endif %}
+                                        </li>
+                                    {% endif %}
+                                    {% if countdownTimer.d > 0 %}
+                                        <li><span id="days">{{ countdownTimer.d }}</span>
+                                            {% if countdownTimer.d > 1 %}
+                                                {{ 'dias' | trans }}
+                                            {% else %}
+                                                {{ 'día' | trans }}
+                                            {% endif %}
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="poets-slider absolute left-0 p-2  bg-gradient-to-r from-blue-500 ">
+                    <div class="img-slide flex flex-nowrap gap-4"
+                         data-scroll data-scroll-section  data-scroll-direction="horizontal" data-scroll-offset="0,100%" data-scroll-position="bottom" >
+                        <img src="{{ asset('img/poets/fure.jpg') }}" class="h-40 w-40" alt="">
+                        <img src="{{ asset('img/poets/georgina.jpg') }}" class="h-40 w-40">
+                        <img src="{{ asset('img/poets/karel.jpg') }}" class="h-40 w-40" >
+                        <img src="{{ asset('img/poets/lina-de-feria.jpg') }}" class="h-40 w-40">
+                        <img src="{{ asset('img/poets/marrero.jpg') }}" class="h-40 w-40">
+                        <img src="{{ asset('img/poets/pierre.jpg') }}" class="h-40 w-40">
+                        <img src="{{ asset('img/poets/morejon.jpg') }}" class="h-40 w-40">
+                        <img src="{{ asset('img/poets/pausides.jpg') }}" class="h-40 w-40">
+                        <img src="{{ asset('img/poets/elaine-vilar.jpg') }}" class="h-40 w-40">
+                        <img src="{{ asset('img/poets/waldo.jpg') }}" class="h-40 w-40">
+                        <img src="{{ asset('img/poets/giselle-lucia.jpg') }}" class="h-40 w-40">
+                        <img src="{{ asset('img/poets/yenis-laura-prieto.jpg') }}" class="h-40 w-40">
+
+
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    </div>
+</section>

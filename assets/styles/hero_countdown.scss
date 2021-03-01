@@ -1,0 +1,24 @@
+ #countdown li {
+        display: inline-block;
+        font-size: 1.5em;
+        list-style-type: none;
+        padding: .5em 1em 1em;
+        text-transform: uppercase;
+ }
+   #countdown li span {
+            display: block;
+            font-size: 4.5rem;
+        }
+
+
+     @media all and (max-width: 768px) {
+
+       #countdown li {
+            font-size: 1.125rem;
+            padding: .25em .75rem .75rem;;
+        }
+
+       #countdown li span {
+            font-size: 3.375rem;
+        }
+    }
