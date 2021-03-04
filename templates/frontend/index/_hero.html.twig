@@ -68,18 +68,9 @@
                 <div class="poets-slider absolute left-0 p-2  bg-gradient-to-r from-blue-500 ">
                     <div class="img-slide flex flex-nowrap gap-4"
                          data-scroll data-scroll-section  data-scroll-direction="horizontal" data-scroll-offset="0,100%" data-scroll-position="bottom" >
-                        <img src="{{ asset('img/poets/fure.jpg') }}" class="h-40 w-40" alt="">
-                        <img src="{{ asset('img/poets/georgina.jpg') }}" class="h-40 w-40">
-                        <img src="{{ asset('img/poets/karel.jpg') }}" class="h-40 w-40" >
-                        <img src="{{ asset('img/poets/lina-de-feria.jpg') }}" class="h-40 w-40">
-                        <img src="{{ asset('img/poets/marrero.jpg') }}" class="h-40 w-40">
-                        <img src="{{ asset('img/poets/pierre.jpg') }}" class="h-40 w-40">
-                        <img src="{{ asset('img/poets/morejon.jpg') }}" class="h-40 w-40">
-                        <img src="{{ asset('img/poets/pausides.jpg') }}" class="h-40 w-40">
-                        <img src="{{ asset('img/poets/elaine-vilar.jpg') }}" class="h-40 w-40">
-                        <img src="{{ asset('img/poets/waldo.jpg') }}" class="h-40 w-40">
-                        <img src="{{ asset('img/poets/giselle-lucia.jpg') }}" class="h-40 w-40">
-                        <img src="{{ asset('img/poets/yenis-laura-prieto.jpg') }}" class="h-40 w-40">
+                        {% for picture in poetPictures %}
+                            <img src="{{ asset('img/poets/' ~ picture) }}" class="h-40 w-40" alt="">
+                        {% endfor %}
 
 
                     </div>

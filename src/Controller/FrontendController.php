@@ -3,8 +3,13 @@
 namespace App\Controller;
 
 use DateTime;
+use Symfony\Bridge\Twig\Mime\NotificationEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class FrontendController extends AbstractController
@@ -15,12 +20,30 @@ class FrontendController extends AbstractController
     public function index(): Response
     {
         $today = new DateTime('today');
-        $target = new DateTime('2021-05-15'); // del 15 al 19 de mayo
+        $target = new DateTime('2021-05-25'); // del 25 al 30 de mayo de 2021
         $countdownTimer = $today->diff($target);
+
+        //poets photos list
+        $poetPictures = [
+            'fure.jpg',
+            'georgina.jpg',
+            'karel.jpg',
+            'lina-de-feria.jpg',
+            'marrero.jpg',
+            'pierre.jpg',
+            'morejon.jpg',
+            'pausides.jpg',
+            'elaine-vilar.jpg',
+            'waldo.jpg',
+            'giselle-lucia.jpg',
+            'yenis-laura-prieto.jpg'
+        ];
+        shuffle($poetPictures);
 
         return $this->render('frontend/index.html.twig', [
             'controller_name' => 'FrontendController',
-            'countdownTimer' => $countdownTimer
+            'countdownTimer' => $countdownTimer,
+            'poetPictures' => $poetPictures
         ]);
     }
 
@@ -53,5 +76,53 @@ class FrontendController extends AbstractController
             'controller_name' => 'FrontendController',
             'countdownTimer' => $countdownTimer
         ]);
+    }
+
+
+    /**
+     * @Route("/contact", name="contact", methods={"POST"})
+     * @param Request $request
+     * @return Response
+     */
+    public function contact(Request $request, MailerInterface $mailer): Response
+    {
+        // Get the form fields and remove whitespace.
+        $name = strip_tags(trim($request->get('name')));
+        $name = str_replace(array("\r","\n"),array(" "," "),$name);
+        $emailAddress = filter_var(trim($request->get('email')), FILTER_SANITIZE_EMAIL);
+        $subject = filter_var(trim($request->get('subject')), FILTER_SANITIZE_EMAIL);
+        $message = trim($request->get('message'));
+
+        // Check that data was sent to the mailer.
+        if ( empty($name) OR empty($message) OR empty($subject) OR !filter_var($emailAddress, FILTER_VALIDATE_EMAIL)) {
+            // Set a 400 (bad request) response code and exit.
+
+            return new Response('Please complete the form and try again.', 400);
+        }
+
+        $email = new NotificationEmail();
+        $email->addTo('fromhabanafestival@meatmemi.33mail.com', 'cubapoesia@cubarte.cult.cu');
+        $email->importance(NotificationEmail::IMPORTANCE_MEDIUM);
+
+        $content = <<<EOT
+Tenemos un nuevo comentario en la web del festival
+==================================================
+
+Un usuario, llamado **$name** (*$emailAddress*)  ha dejado el siguiente mensaje
+
+**$subject**
+
+---
+
+$message
+ 
+EOT;
+
+        $email->markdown($content);
+        $email->subject('Nuevo comentario en la web festival de poesia de la habana');
+        $mailer->send($email);
+
+        $this->addFlash('notice', 'Message sent');
+        return $this->redirectToRoute('frontend');
     }
 }

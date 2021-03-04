@@ -107,6 +107,12 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/doctrine/orm" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/egulias/email-validator" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/webpack-encore-bundle" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/lorenzo/pinky" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/tijsverkoyen/css-to-inline-styles" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/twig/inky-extra" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/twig/cssinliner-extra" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/twig/markdown-extra" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/erusev/parsedown" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
