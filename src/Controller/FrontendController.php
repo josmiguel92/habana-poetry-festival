@@ -2,15 +2,22 @@
 
 namespace App\Controller;
 
+use App\Entity\ContactMessage;
+use App\Entity\EmailSubscriptions;
+use App\Form\ContactMessageType;
+use App\Form\EmailSubscriptionType;
+use App\Message\SubscriptionNotification;
 use DateTime;
 use Symfony\Bridge\Twig\Mime\NotificationEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Karser\Recaptcha3Bundle\Validator\Constraints\Recaptcha3Validator;
 
 class FrontendController extends AbstractController
 {
@@ -40,10 +47,23 @@ class FrontendController extends AbstractController
         ];
         shuffle($poetPictures);
 
+
+        $subscription = new EmailSubscriptions();
+        $subscribeForm = $this->createForm(EmailSubscriptionType::class, $subscription, [
+            'action' => $this->generateUrl('festival_subscribe'),
+        ]);
+
+        $contact = new ContactMessage();
+        $contactForm = $this->createForm(ContactMessageType::class, $contact, [
+            'action' => $this->generateUrl('contact')
+        ]);
+
         return $this->render('frontend/index.html.twig', [
             'controller_name' => 'FrontendController',
             'countdownTimer' => $countdownTimer,
-            'poetPictures' => $poetPictures
+            'poetPictures' => $poetPictures,
+            'subscribeForm' => $subscribeForm->createView(),
+            'contactForm' => $contactForm->createView()
         ]);
     }
 
@@ -82,29 +102,51 @@ class FrontendController extends AbstractController
     /**
      * @Route("/contact", name="contact", methods={"POST"})
      * @param Request $request
+     * @param MailerInterface $mailer
+     * @param Recaptcha3Validator $recaptcha3Validator
      * @return Response
+     * @throws TransportExceptionInterface
      */
-    public function contact(Request $request, MailerInterface $mailer): Response
+    public function contact(Request $request, MailerInterface $mailer, Recaptcha3Validator $recaptcha3Validator): Response
     {
-        // Get the form fields and remove whitespace.
-        $name = strip_tags(trim($request->get('name')));
-        $name = str_replace(array("\r","\n"),array(" "," "),$name);
-        $emailAddress = filter_var(trim($request->get('email')), FILTER_SANITIZE_EMAIL);
-        $subject = filter_var(trim($request->get('subject')), FILTER_SANITIZE_EMAIL);
-        $message = trim($request->get('message'));
+        $contact = new ContactMessage();
 
-        // Check that data was sent to the mailer.
-        if ( empty($name) OR empty($message) OR empty($subject) OR !filter_var($emailAddress, FILTER_VALIDATE_EMAIL)) {
-            // Set a 400 (bad request) response code and exit.
+        $form = $this->createForm(ContactMessageType::class, $contact);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
 
-            return new Response('Please complete the form and try again.', 400);
-        }
+            $score = $recaptcha3Validator->getLastResponse()->getScore();
+            if($score < 0.5)
+            {
+                $this->redirectToRoute('frontend');
+            }
 
-        $email = new NotificationEmail();
-        $email->addTo('fromhabanafestival@meatmemi.33mail.com', 'cubapoesia@cubarte.cult.cu');
-        $email->importance(NotificationEmail::IMPORTANCE_MEDIUM);
+            /**
+             * @var ContactMessage $contact
+             */
+            $contact = $form->getData();
 
-        $content = <<<EOT
+            // ... perform some action, such as saving the task to the database
+            // for example, if Task is a Doctrine entity, save it!
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($contact);
+            $entityManager->flush();
+
+
+            // Get the form fields and remove whitespace.
+
+            $emailAddress = $contact->getEmail();
+            // Get the form fields and remove whitespace.
+            $name = strip_tags(trim($contact->getAuthorName()));
+            $emailAddress = filter_var(trim($request->get('email')), FILTER_SANITIZE_EMAIL);
+            $subject = filter_var(trim($contact->getSubject()), FILTER_SANITIZE_EMAIL);
+            $message = trim($contact->getMessage());
+
+            $email = new NotificationEmail();
+            $email->addTo('fromhabanafestival@meatmemi.33mail.com', 'cubapoesia@cubarte.cult.cu');
+            $email->importance(NotificationEmail::IMPORTANCE_MEDIUM);
+
+            $content = <<<EOT
 Tenemos un nuevo comentario en la web del festival
 ==================================================
 
@@ -118,11 +160,84 @@ $message
  
 EOT;
 
-        $email->markdown($content);
-        $email->subject('Nuevo comentario en la web festival de poesia de la habana');
-        $mailer->send($email);
+            $email->markdown($content);
+            $email->subject('Nuevo comentario en la web festival de poesia de la habana');
 
-        $this->addFlash('notice', 'Message sent');
+            $mailer->send($email);
+
+            $this->addFlash('info', 'Message sent');
+            return $this->redirectToRoute('frontend');
+        }
+
+
+        $this->addFlash('error', 'Error al enviar el mensaje');
+        return $this->redirectToRoute('frontend');
+
+    }
+
+
+    /**
+     * @Route("/festival-subscribe", name="festival_subscribe", methods={"POST"})
+     * @param Request $request
+     * @param MailerInterface $mailer
+     * @param Recaptcha3Validator $recaptcha3Validator
+     * @return Response
+     * @throws TransportExceptionInterface
+     */
+    public function festival_subscribe(Request $request, MailerInterface $mailer, Recaptcha3Validator $recaptcha3Validator): Response
+    {
+
+        $subscription = new EmailSubscriptions();
+
+        $form = $this->createForm(EmailSubscriptionType::class, $subscription);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $score = $recaptcha3Validator->getLastResponse()->getScore();
+            if($score < 0.5)
+            {
+                $this->redirectToRoute('frontend');
+            }
+            // $form->getData() holds the submitted values
+            // but, the original `$subscription` variable has also been updated
+            /** @var \App\Entity\EmailSubscriptions $subscription */
+            $subscription = $form->getData();
+
+            // ... perform some action, such as saving the task to the database
+            // for example, if Task is a Doctrine entity, save it!
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($subscription);
+
+            try {
+                $entityManager->flush();
+            }
+            catch (\Doctrine\DBAL\Exception\UniqueConstraintViolationException $e){
+                $this->addFlash('error', 'The email is already registered');
+                return $this->redirectToRoute('frontend');
+            }
+
+
+            $this->dispatchMessage(new SubscriptionNotification($subscription->getUniqueId()));
+            $this->addFlash('info', 'Message sent');
+            return $this->redirectToRoute('frontend');
+        }
+
+
+        $this->addFlash('error', 'Error al agregar el email');
+        return $this->redirectToRoute('frontend');
+    }
+
+    /**
+     * @Route("/verify/email_subscription/{uniqueId}", name="verify_email_subscription", methods={"GET"})
+     * @param EmailSubscriptions $emailSubscriptions
+     * @return Response
+     */
+    public function activateSubscription(EmailSubscriptions $emailSubscriptions): Response
+    {
+        $emailSubscriptions->setActive();
+        $this->getDoctrine()->getManager()->persist($emailSubscriptions);
+        $this->getDoctrine()->getManager()->flush();
+        $this->addFlash('info', 'Your email was verified!');
         return $this->redirectToRoute('frontend');
     }
 }
