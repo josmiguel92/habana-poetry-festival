@@ -12,9 +12,9 @@
            and uncomment the following Encore helpers to start using Symfony UX #}
         {% block stylesheets %}
             <!-- Icon -->
-            <link rel="stylesheet" type="text/css" href="{{ asset('css/LineIcons.2.0.css') }}">
+            <link rel="stylesheet" type="text/css" href="{{ asset('css/LineIcons.2.0.css') }}" >
             <!-- Animate -->
-            <link rel="stylesheet" type="text/css" href="{{ asset('css/animate.css') }}">
+            <link rel="stylesheet" type="text/css" href="{{ asset('css/animate.css') }}"  media="print" onload="this.media='all'">
 
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
