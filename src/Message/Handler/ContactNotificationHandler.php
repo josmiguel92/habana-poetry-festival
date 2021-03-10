@@ -3,17 +3,12 @@
 
 namespace App\Message\Handler;
 
-
 use App\Message\ContactNotification;
-use App\Message\SubscriptionNotification;
 use App\Repository\ContactMessageRepository;
-use App\Repository\EmailSubscriptionsRepository;
 use Symfony\Bridge\Twig\Mime\NotificationEmail;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ContactNotificationHandler implements MessageHandlerInterface
 {
@@ -23,7 +18,6 @@ class ContactNotificationHandler implements MessageHandlerInterface
      * @param ContactMessageRepository $contactMessageRepository
      * @param MailerInterface $mailer
      * @param RouterInterface $router
-     * @param TranslatorInterface $translator
      */
     public function __construct(
         private ContactMessageRepository $contactMessageRepository,

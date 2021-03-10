@@ -6,6 +6,7 @@ use App\Entity\ContactMessage;
 use App\Entity\EmailSubscriptions;
 use App\Form\ContactMessageType;
 use App\Form\EmailSubscriptionType;
+use App\Message\ContactNotification;
 use App\Message\SubscriptionNotification;
 use DateTime;
 use Karser\Recaptcha3Bundle\Validator\Constraints\Recaptcha3Validator;
@@ -69,15 +70,12 @@ class FrontendController extends AbstractController
      * @Route("/contact", name="contact", methods={"POST"})
      *
      * @param Request $request
-     * @param MailerInterface $mailer
      * @param Recaptcha3Validator $recaptcha3Validator
      * @param TranslatorInterface $translator
      * @return Response
-     * @throws TransportExceptionInterface
      */
     public function contact(
         Request $request,
-        MailerInterface $mailer,
         Recaptcha3Validator $recaptcha3Validator,
         TranslatorInterface $translator
     ): Response {
@@ -102,31 +100,15 @@ class FrontendController extends AbstractController
             $entityManager->persist($contact);
             $entityManager->flush();
 
-            // Get the form fields and remove whitespace.
-
-            $emailAddress = $contact->getEmail();
-            // Get the form fields and remove whitespace.
-            $name = strip_tags(trim($contact->getAuthorName()));
-            $emailAddress = filter_var(trim($request->get('email')), FILTER_SANITIZE_EMAIL);
-            $subject = filter_var(trim($contact->getSubject()), FILTER_SANITIZE_EMAIL);
-            $message = trim($contact->getMessage());
-
-            $email = new NotificationEmail();
-            $email->addTo('fromhabanafestival@meatmemi.33mail.com', 'cubapoesia@cubarte.cult.cu');
-            $email->importance(NotificationEmail::IMPORTANCE_MEDIUM);
+            $this->dispatchMessage(new ContactNotification($contact->getUniqueId()));
 
 
-            $email->markdown($content);
-            $email->subject('Nuevo comentario en la web festival de poesia de la habana');
-
-            $mailer->send($email);
-
-            $this->addFlash('info', 'Message sent');
+            $this->addFlash('info', $translator->trans('El mensaje se evió correctamente'));
 
             return $this->redirectToRoute('frontend');
         }
 
-        $this->addFlash('error', 'Error al enviar el mensaje');
+        $this->addFlash('error', $translator->trans('Error al enviar el mensaje'));
 
         return $this->redirectToRoute('frontend');
     }
