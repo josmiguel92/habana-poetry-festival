@@ -11,6 +11,6 @@ class ContactNotification
 
     public function getContactId(): string
     {
-        return $this->$contactId;
+        return $this->contactId;
     }
 }

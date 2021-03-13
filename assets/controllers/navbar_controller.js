@@ -10,7 +10,8 @@ import { Controller } from 'stimulus';
  * Delete this file or adapt it for your use!
  */
 export default class extends Controller {
-    connect() {
+    connect()
+    {
 
         /*=====================================
         Sticky
@@ -54,7 +55,8 @@ export default class extends Controller {
 
 
         // section menu active
-        function onScroll(event) {
+        function onScroll(event)
+        {
             var sections = document.querySelectorAll('.page-scroll');
             var scrollPos = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
 
@@ -76,9 +78,10 @@ export default class extends Controller {
 
         //===== close navbar-collapse when a  clicked
         let navbarToggler = document.querySelector(".navbar-toggler");
-        var navbarCollapse = document.querySelector(".navbar-collapse");
+        let navbarCollapse = document.querySelector(".navbar-collapse");
 
-        document.querySelectorAll(".page-scroll").forEach(e =>
+        document.querySelectorAll(".page-scroll").forEach(
+            e =>
             e.addEventListener("click", () => {
                 navbarToggler.classList.remove("active");
                 navbarCollapse.classList.remove('show')

@@ -1,64 +1,81 @@
 
 <!-- Services Section Start -->
-<section id="convocatoria" class="py-24"
+<section id="convocatoria" class="py-24 bg-fixed md:bg-scroll"
 style="
         background-image: url('{{ asset('img/havana-vector.svg') }}');
         background-repeat: no-repeat;
         background-position-y: 100%;
         background-size: 100%;
+
         ">
     <div class="container">
         <div class="text-center">
-            <h2 class="mb-12 section-heading wow fadeInDown" data-wow-delay="0.3s">{{ 'Convocatoria' | trans }}</h2>
+            <h2 class="mb-12 section-heading wow fadeInUp" data-wow-delay="0.3s">{{ 'Convocatoria' | trans }}</h2>
         </div>
 
-        <div class="container w-full flex justify-around">
-            <div class="aside w-1/4 flex flex-col">
-                <div class="logo mb-6">
+        <div class="container w-full flex flex-col justify-around flex-col-reverse md:flex-row">
+            <div class="aside lg:w-1/5 flex flex-col items-center border-t-2 md:border-none wow fadeInUp" data-wow-delay="0.6s">
+                <div class="logo mb-6 mt-6 md:mt-2">
                     <img src="{{ asset('img/logo-festival.jpg') }}">
                 </div>
                 <div class="comite mt-4">
                     <b class="text-red-500 uppercase">{{ "COMITÉ ORGANIZADOR" | trans }}</b>
                     <p>
-                        Alex Pausides, Karel Leyva, Pierre Bernet, Yenys Laura Prieto, Giselle Lucía Navarro, Luis Paz, Josué Pérez, Antonio Suárez, María de los Angeles Polo, Betsy Rojo, Damaris Otero, José Miguel Aguilar, Marlene Alfonso, Yaniza Díaz, Katy Alfonso
+                        Alex Pausides, Karel Leyva, Pierre Bernet, Yenys Laura Prieto, Giselle Lucía Navarro,
+                        Luis Paz, Josué Pérez, María de los Angeles Polo, Betsy Rojo, Damaris Otero,
+                        Josué Miguel Aguilar, Marlene Alfonso, Yanitza Díaz, Katy Alfonso.
                     </p>
                 </div>
                 <div class="info mt-6">
 
                     <div class="icon ">
                         <i class="lni lni-calendar text-4xl"></i>
-                        <span class="text-gray-700  text-xl">{{ '15-19 de mayo, 2021' | trans }}</span>
+                        <span class="text-gray-700  text-xl">{{ '25-30 de mayo, 2021' | trans }}</span>
                     </div>
 
                 </div>
 
-                <div class="sponsors flex mt-6 gap-2">
-                    <img class="w-1/3" src="{{ asset('img/logo_uneac.jpg') }}">
-                    <img class="w-1/3" src="{{ asset('img/logo-icl.jpg') }}">
-                    <img class="w-1/3" src="{{ asset('img/logo_mincult.png') }}">
+                <div class="sponsors grid mt-6 gap-2 grid-cols-2 justify-items-center">
+
+                    <img src="{{ asset('img/logo_mincult.png') }}" alt="Logo Mintcult" class="mt-2 h-12">
+
+                    <img src="{{ asset('img/logo-cubapoesia.webp') }}" alt="Centro Cultural Cubapoesia" class="mt-2 h-12">
+
+                    <img src="{{ asset('img/logo_uneac.jpg') }}" alt="Logo Uneac" class="mt-2 h-12">
+
+                    <img src="{{ asset('img/logo-icl.jpg') }}" alt="Logo ICL" class="mt-2 h-12">
+
+                    <img src="{{ asset('img/logo-sur.webp') }}" alt="Logo Sur" class="mt-2 h-12">
+                    <img src="{{ asset('img/logo-casadelalba.webp') }}" alt="Logo Casa del Alba" class="mt-2 h-12">
+                    <img src="{{ asset('img/logo-wpm.webp') }}" alt="Logo WPM" class="mt-2 h-12">
+                    <img src="{{ asset('img/logo-sureditores.webp') }}" alt="Logo SurEditores" class="mt-2 h-12">
                 </div>
                 
             </div>
-            <article class="w-3/4 prose lg:prose-xl right-0">
-                <p>
-                    El Centro Cultural CubaPoesía, la Asociación de Escritores, el Instituto Cubano del Libro y el Ministerio de Cultura convocan al Festival Internacional de Poesía de La Habana, en una realización virtual del 25 al 30 de mayo de 2021, en conmemoración del 60 aniversario de la UNEAC y de las fundacionales Palabras a los intelectuales, de Fidel Castro.
+            <article class="prose lg:prose-xl p-2">
+                <p class="wow fadeInUp" data-wow-delay="0.6s">
+                    {{ 'convocatoria.p1' | trans }}
                 </p>
 
-                <p>El evento incluirá las habituales lecturas de “CubaPoesía Itinerante”, “Verso amigo” e “Ismaelillo” para la promoción de la lectura entre los estudiantes, el Laboratorio de Escrituras y el Encuentro de Poetas en Defensa de la Humanidad, (este año de pandemia, bloqueos y acechanzas imperiales, estará bajo el título “Por Cuba otra vez”)</p>
-
-                <p>
-                    Los participantes podrán conectarse en tiempo real a las sesiones del festival a través de Facebook o enviar previamnete sus grabaciones en video.
+                <p class="wow fadeInUp" data-wow-delay="0.8s">
+                    {{ 'convocatoria.p2' | trans }}
                 </p>
 
-                <p>
-                    Los videos serán de 10 minutos de duración para las lecturas de poesia y de 20 minutos para las intervenciones en los foros de reflexión sobre la escritura y los grandes desafíos de nuestro tiempo.
+                <p class="wow fadeInUp" data-wow-delay="1s">
+                    {{ 'convocatoria.p3' | trans }}
                 </p>
 
-                <p>
-                    Los poetas cubanos que participarán en la acción poética CubaPoesía Itinerante desde diversas provincias, del 15 al 19 de mayo, lo harán en mesas de lecturas de 45 minutos.
+                <p class="wow fadeInUp" data-wow-delay="1.2s">
+                    {{ 'convocatoria.p4' | trans }}
                 </p>
 
-                <p>Los envíos se recibirán (en inglés o español), hasta el 15 de mayo de 2021, en la web festivaldepoesiadelahabana.com</p>
+                <p class="wow fadeInUp" data-wow-delay="1.4s">
+                    {{ 'convocatoria.p5' | trans }}
+                </p>
+
+                <p class="wow fadeInUp" data-wow-delay="1.6s">
+                    {{ 'convocatoria.p6' | trans }}
+                </p>
             </article>
         </div>
 

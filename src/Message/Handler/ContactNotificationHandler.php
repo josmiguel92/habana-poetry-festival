@@ -37,7 +37,6 @@ class ContactNotificationHandler implements MessageHandlerInterface
 
         //Admin email
         $message = new NotificationEmail();
-        $message->addTo('fromhabanafestival@meatmemi.33mail.com', 'cubapoesia@cubarte.cult.cu');
         $message->importance(NotificationEmail::IMPORTANCE_MEDIUM);
 
         $content = <<<EOT

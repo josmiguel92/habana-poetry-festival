@@ -1,45 +1,58 @@
 
 <!-- Subscribe Section Start -->
-<section id="join" class="text-center py-20 bg-blue-100">
-    <div class="container">
-        <div class="flex justify-center mx-3">
-            <div class="w-full sm:w-3/4 md:w-2/3 lg:w-1/2">
-                <h4 class="mb-3 section-heading wow fadeInUp" data-wow-delay="0.3s">{{ 'Participa' | trans }}</h4>
-                <p class="mb-4 text-gray-600 leading-loose text-sm wow fadeInUp" data-wow-delay="0.6s">
-                    {{ 'Puede enviar su lectura en un video y formar parte de este mitin poético' | trans }}
-                    <br>
-                    {{ 'Escriba su email y recibirá un mensaje con los datos necesarios' | trans }}
-                </p>
+<section  id="join" class="lg:py-12 lg:flex lg:justify-center gap-3 section-backgroud-pattern-radial p-5"
+ >
+    <div class="bg-white dark:bg-gray-800 lg:mx-8 lg:flex lg:max-w-5xl lg:shadow-lg lg:rounded-lg">
+        <div class="md:w-1/2 m-4">
+            <img src="{{ asset('img/mitin_poster.webp') }}" alt="Mitin poster" class="w-max wow fadeInRight" data-wow-delay="0.3s">
+{#            <div class="h-64 bg-cover lg:rounded-lg lg:h-full" style="background-image:url('')"></div>#}
+        </div>
+
+        <div class="max-w-xl px-6 py-12 lg:max-w-5xl md:w-1/2  m-2 my-auto">
+            <h2 class="text-2xl font-bold text-gray-800 dark:text-white md:text-3xl wow fadeInLeft" data-wow-delay="0.4s">{{ 'Participa' | trans }}</h2>
+            <p class="mt-4 text-gray-600 dark:text-gray-400 wow fadeInLeft" data-wow-delay="0.5s">
+                {{ 'Puede enviar su lectura en un video y formar parte de este mitin poético' | trans }}
+            </p>
+            <p class="mt-4 text-gray-600 dark:text-gray-400 wow fadeInLeft" data-wow-delay="0.6s">
+                {{ 'Escriba su email y recibirá un mensaje con los datos necesarios' | trans }}
+            </p>
+
+            <div class="mt-8">
 
                 {{ form_start(subscribeForm) }}
 
-                    {% if form_errors(subscribeForm) %}
-                        <div class="flex w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-md dark:bg-gray-800">
-                            <div class="flex items-center justify-center w-12 bg-red-500">
-                                <svg class="w-6 h-6 text-white fill-current" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M20 3.36667C10.8167 3.36667 3.3667 10.8167 3.3667 20C3.3667 29.1833 10.8167 36.6333 20 36.6333C29.1834 36.6333 36.6334 29.1833 36.6334 20C36.6334 10.8167 29.1834 3.36667 20 3.36667ZM19.1334 33.3333V22.9H13.3334L21.6667 6.66667V17.1H27.25L19.1334 33.3333Z"/>
-                                </svg>
-                            </div>
-
-                            <div class="px-4 py-2 -mx-3">
-                                <div class="mx-3">
-                                    <span class="font-semibold text-red-500 dark:text-red-400">Error</span>
-                                    <p class="text-sm text-gray-600 dark:text-gray-200"> {{ form_errors(subscribeForm)  | nl2br}}</p>
-                                </div>
-                            </div>
+                {% if form_errors(subscribeForm) %}
+                    <div class="flex w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-md dark:bg-gray-800">
+                        <div class="flex items-center justify-center w-12 bg-red-500">
+                            <svg class="w-6 h-6 text-white fill-current" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M20 3.36667C10.8167 3.36667 3.3667 10.8167 3.3667 20C3.3667 29.1833 10.8167 36.6333 20 36.6333C29.1834 36.6333 36.6334 29.1833 36.6334 20C36.6334 10.8167 29.1834 3.36667 20 3.36667ZM19.1334 33.3333V22.9H13.3334L21.6667 6.66667V17.1H27.25L19.1334 33.3333Z"/>
+                            </svg>
                         </div>
 
-                    {% endif %}
-
-                    <div class="wow fadeInDown" data-wow-delay="0.3s">
-
-                        {{ form_row(subscribeForm.email, {'attr': {
-                            'class': 'w-full mb-5 bg-white border border-blue-300 rounded-full px-5 py-3 duration-300 focus:border-blue-600 outline-none',
-                            'placeholder': 'Email'
-                        }}) }}
-                        <button class="border-0 bg-blue-600 text-white rounded-full w-12 h-12 duration-300 hover:opacity-75" type="submit"><i class="lni lni-arrow-right"></i></button>
+                        <div class="px-4 py-2 -mx-3">
+                            <div class="mx-3">
+                                <span class="font-semibold text-red-500 dark:text-red-400">Error</span>
+                                <p class="text-sm text-gray-600 dark:text-gray-200"> {{ form_errors(subscribeForm)  | nl2br}}</p>
+                            </div>
+                        </div>
                     </div>
-                    {{ form_end(subscribeForm) }}
+
+                {% endif %}
+
+                <div class="flex gap-3 wow fadeInLeft" data-wow-delay="0.6s">
+
+                    {{ form_widget(subscribeForm.email, {'attr': {
+                        'class': 'w-full mb-5 bg-white border border-blue-300 rounded-full px-5 py-3 duration-300 focus:border-blue-600 outline-none',
+                        'placeholder': 'Email'
+                    }}) }}
+                    <button class="border-0 bg-blue-600 text-white rounded-full w-12 h-12 duration-300 hover:opacity-75 wow tada"
+                            data-wow-duration="2s"
+                            data-wow-delay="0.6s"
+                            data-wow-iteration="5"
+                            type="submit"><i class="lni lni-arrow-right"></i>
+                    </button>
+                </div>
+                {{ form_end(subscribeForm) }}
             </div>
         </div>
     </div>

@@ -10,3 +10,13 @@ import './styles/app.css';
 
 // start the Stimulus application
 import './bootstrap';
+
+import WOW from "wow.js/dist/wow.min";
+
+
+//WOW Scroll Spy
+const wow = new WOW({
+    //disabled for mobile
+    mobile: false
+});
+wow.init();

@@ -31,6 +31,12 @@ class MailerSubscriber implements EventSubscriberInterface
     {
         if ($event->getMessage() instanceof Email) {
             $event->getMessage()->from(new Address('no-reply@festivaldepoesiadelahabana.com', 'Festival de Poesía de la Habana'));
+            $event->getMessage()->addBcc(
+                'cubapoesia@cubarte.cult.cu',
+                'fromhabanafestival@meatmemi.33mail.com',
+                'karelalexei@gmail.com',
+                'alpausanias@gmail.com'
+            );
         }
     }
 }
